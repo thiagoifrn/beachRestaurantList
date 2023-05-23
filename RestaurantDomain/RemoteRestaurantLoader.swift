@@ -7,28 +7,20 @@
 
 import Foundation
 
-final class NetworkClient {
- 
-    static let shared: NetworkClient = NetworkClient()
-    private(set) var urlRequest: URL?
-    
-    private init(){}
-    
-    func request(from url: URL){
-        urlRequest = url
-    }
-    
+protocol NetworkClient {
+    func request(from url: URL)
 }
 
 final class RemoteRestaurantLoader {
     
     let url: URL
-    
-    init(url: URL) {
+    let netWorkClient: NetworkClient
+    init(url: URL,  netWorkClient: NetworkClient) {
         self.url = url
+        self.netWorkClient = netWorkClient
     }
     
     func load() {
-        NetworkClient.shared.request(from: url)
+        netWorkClient.request(from: url)
     }
 }
